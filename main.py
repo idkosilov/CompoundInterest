@@ -1,27 +1,43 @@
 from prettytable import PrettyTable
 
 
+def float_format(number):
+    return f"{number:.{2}f}"
+
+
+def is_number(string):
+    try:
+        float(string)
+        return True
+    except ValueError:
+        return False
+
+
 def enter_data():
     years = input("Срок размещения капитала (лет): ")
-    while not years.isdigit():
+    while not is_number(years):
         print("Неверное значение, введите целое значение.")
         years = input("Срок размещения капитала (лет): ")
     years = int(years)
+
     capital = input("Начальный капитал ($): ")
-    while not capital.isdigit():
-        print("Неверное значение, введите целое значение.")
+    while not is_number(capital):
+        print("Неверное значение, введите число.")
         capital = input("Начальный капитал ($): ")
-    capital = int(capital)
+    capital = float(capital)
+
     interest_rate = input("Процентная ставка (%/мес.): ")
-    while not interest_rate.isdigit():
-        print("Неверное значение, введите целое значение.")
+    while not is_number(interest_rate):
+        print("Неверное значение, введите число.")
         interest_rate = input("Процентная ставка (%/мес.): ")
-    interest_rate = int(interest_rate)
+    interest_rate = float(interest_rate)
+
     investments = input("Инвестиционные вливания ($/мес.): ")
-    while not investments.isdigit():
-        print("Неверное значение, введите целое значение.")
+    while not is_number(investments):
+        print("Неверное значение, введите число.")
         investments = input("Инвестиционные вливания ($/мес.): ")
-    investments = int(investments)
+    investments = float(investments)
+
     return years, capital, interest_rate, investments
 
 
@@ -31,7 +47,8 @@ def main():
         table = PrettyTable()
         table.field_names = ["Месяц", "Основа инвестиций", "Сумма % за месяц", "Капитал"]
         for month in range(1, 13):
-            table.add_row([month, capital, capital*interest_rate/100, capital*(1+interest_rate/100)])
+            table.add_row([month, float_format(capital), float_format(capital * interest_rate / 100),
+                           float_format(capital * (1 + interest_rate / 100))])
             capital = capital * (1 + interest_rate / 100) + investments
         print(f"{year} год", table, sep="\n")
 
