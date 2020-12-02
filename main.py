@@ -1,3 +1,8 @@
+"""Case-study #3 Investment report
+Developer: Kosilov I.
+
+"""
+
 from prettytable import PrettyTable
 
 
